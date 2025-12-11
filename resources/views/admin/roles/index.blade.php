@@ -33,7 +33,7 @@
 
     <div class="card">
         <div class="card-body">
-            <table id="roles-table" class="table table-bordered table-striped">
+            <table id="roles-table" class="table table-bordered table-striped statistics">
                 <thead>
                 <tr>
                     <th>#</th>

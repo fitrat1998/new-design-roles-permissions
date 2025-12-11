@@ -4,61 +4,59 @@
         <nav class="sidebar-nav">
             <ul class="nav flex-column">
 
-                {{-- Dashboard --}}
+                <!-- 1) Asosiy -->
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('index') ? 'active' : '' }}" href="{{ route('index') }}">
-                        <i class="bi bi-speedometer2"></i>
-                        <span>Bosh sahifa</span>
+                    <a class="nav-link {{ request()->routeIs('index') ? 'active' : '' }}"
+                       href="{{ route('index') }}">
+                        <i class="bi bi-speedometer2 me-2"></i> Bosh sahifa
                     </a>
                 </li>
 
-                @php
-                    $structureActive = request()->is('roles*') || request()->is('permissions*') || request()->is('users*');
-                    $ariaExpanded = $structureActive ? 'true' : 'false';
-                    $collapseClass = $structureActive ? 'collapse show' : 'collapse';
-                @endphp
+                <!-- 4) Tuzilma -->
+                @canany(['roles.show', 'permissions.show', 'users.show'])
+                    @php
+                        $structureActive =
+                            request()->is('roles*') ||
+                            request()->is('permissions*') ||
+                            request()->is('users*');
+                    @endphp
 
+                    <li class="nav-item">
+                        <button
+                            class="menu-toggle nav-link d-flex align-items-center {{ $structureActive ? 'active' : '' }}"
+                            data-menu="structureMenu">
+                            <i class="bi bi-puzzle me-2"></i> Tuzilma
+                            <i class="bi bi-chevron-down ms-auto"></i>
+                        </button>
 
-                <li class="nav-item">
-                    <a class="nav-link {{ $structureActive ? 'active' : '' }}"
-                       href="#"
-                       data-bs-toggle="collapse"
-                       data-bs-target="#elementsSubmenu"
-                       aria-expanded="{{ $ariaExpanded }}">
-                        <i class="bi bi-puzzle"></i>
-                        <span>Tuzilma</span>
-                        <i class="bi bi-chevron-down ms-auto"></i>
-                    </a>
+                        <div id="structureMenu" class="menu-collapse {{ $structureActive ? 'show' : '' }}">
+                            <ul class="nav nav-submenu flex-column ps-3">
 
-                    <div class="{{ $collapseClass }}" id="elementsSubmenu">
-                        <ul class="nav nav-submenu">
+                                @can('roles.show')
+                                    <li><a class="nav-link {{ request()->is('roles*') ? 'active' : '' }}"
+                                           href="{{ route('roles.index') }}">
+                                            <i class="bi bi-person-gear me-2"></i> Rollar
+                                        </a></li>
+                                @endcan
 
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->is('roles*') ? 'active' : '' }}"
-                                   href="{{ route('roles.index') }}">
-                                    <i class="bi bi-people"></i>
-                                    <span>Rollar</span>
-                                </a>
-                            </li>
+                                @can('permission.show')
+                                    <li><a class="nav-link {{ request()->is('permissions*') ? 'active' : '' }}"
+                                           href="{{ route('permissions.index') }}">
+                                            <i class="bi bi-shield-lock me-2"></i> Ruxsatlar
+                                        </a></li>
+                                @endcan
 
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->is('permissions*') ? 'active' : '' }}"
-                                   href="{{ route('permissions.index') }}">
-                                    <i class="bi bi-key"></i>
-                                    <span>Ruxsatlar</span>
-                                </a>
-                            </li>
+                                 @can('user.show')
+                                    <li><a class="nav-link {{ request()->is('users*') ? 'active' : '' }}"
+                                           href="{{ route('users.index') }}">
+                                            <i class="bi bi-shield-lock me-2"></i> Foydalanuvchilar
+                                        </a></li>
+                                @endcan
+                            </ul>
+                        </div>
+                    </li>
+                @endcanany
 
-                            <a class="nav-link {{ request()->is('users*') ? 'active' : '' }}"
-                               href="{{ route('users.index') }}">
-                                <i class="bi bi-person"></i>
-                                <span>Foydalanuvchilar</span>
-                            </a>
-
-
-                        </ul>
-                    </div>
-                </li>
 
 
             </ul>

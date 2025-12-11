@@ -33,7 +33,7 @@
 
     <div class="card">
         <div class="card-body">
-            <table id="dataTable" class="table table-bordered table-striped">
+            <table id="dataTable" class="table table-bordered table-striped statistics">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -48,7 +48,7 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->email ?? 'mavjud emas' }}</td>
                         <td>
                             @foreach($user->roles as $role)
                                 <span class="badge rounded-pill bg-info me-2 mb-2">
